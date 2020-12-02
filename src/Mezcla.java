@@ -1,12 +1,6 @@
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+
 import java.util.Arrays;
-import java.util.Random;
+
 
 class Ordenador{
 	public int[] mezclaDirecta (int[] vector) {
@@ -98,66 +92,11 @@ class Ordenador{
 			}	
 		}
 	}
-	//===== IMPORTANTE =====
-	//ES NECESARIO CREAR UN ARCHIVO EN LA RAIZ DEL PROYECTO CON EL NOMBRE "archivo.txt" y archivo2.txt
-	public int[] archivos() {
-		File archivo=new File("archivo.txt");
-		FileReader fr=null;
-		BufferedReader br=null;
-		String fila="";
-		String lista="";
-		try {
-		fr= new FileReader(archivo);
-		br = new BufferedReader(fr);
-		while((fila=br.readLine())!=null) {
-			lista=lista+fila+",";
-		}
-		}catch(FileNotFoundException e) {
-			System.out.println("Error el archivo no fue enconrado");
-		}catch(IOException e) {
-
-		}finally {
-			try {
-				br.close();
-				fr.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}	
-		String numerosS[]=lista.split(",");
-		int numerosEnteros[]=new int[numerosS.length];
-		for(int i=0;i<numerosS.length;i++) {
-			numerosEnteros[i]=Integer.parseInt(numerosS[i]);
-		}
-		return numerosEnteros;
-	}
-	public void meterDatosOrdenadosArchivo(int vector[]) {
-		FileWriter fw=null;
-		PrintWriter pw=null;
-		try {
-			fw=new FileWriter("archivo2.txt",false);
-
-			pw=new PrintWriter(fw);
-			for(int i=0;i<vector.length;i++) {
-				pw.println(vector[i]);
-			}
-			System.out.println("Datos Ordenados y Actualizados en el Archivo");
-		} catch (IOException e) {
-			e.printStackTrace();
-			e.printStackTrace();
-		}finally {
-			pw.close();
-			try {
-				fw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	public void mezclaNatural(int[] vector) {
+	
+	public void mezclaNatural(int[] numeros) {
 		int izquierda =0;
 		int izq =0;
-		int derecha = vector.length-1;
+		int derecha = numeros.length-1;//Sin el error de nullPointerExepcion
 		int der = derecha;
 		boolean ordenado = false;
 		do {
@@ -165,18 +104,20 @@ class Ordenador{
 			izquierda = 0;
 			while(izquierda<derecha) {
 				izq =izquierda;
-				while(izq < derecha && vector[izq]<=vector[izq+1]) {
+				while(izq < derecha && numeros[izq]<=numeros[izq+1]) {
 					izq++;
 				}
 				der = izq +1;
-				while(der==derecha-1 || der<derecha && vector[der]<=vector[der+1]) {
+				while(der==derecha-1 || der<derecha && numeros[der]<=numeros[der+1]) {
 					der++;
 				}
 				if(der<=derecha) {
-					mezclaDirecta2(vector);
+					mezclaDirecta2(numeros);
+					
 					ordenado = false;
 				}
 				izquierda=izq;
+				
 			}
 		}while(!ordenado);	
 	}	
@@ -185,11 +126,11 @@ public class Mezcla {
 
 	public static void main(String[] args) {
 		Ordenador o = new Ordenador();
-		int [] v = o.archivos();
-		System.out.println("Numeros desordenados: " + Arrays.toString(v));
-		o.mezclaNatural(v);
-		System.out.println("Numeros Ordenados: " +Arrays.toString(v));
-		o.meterDatosOrdenadosArchivo(v);
+		int []numeros = {20,35,2,12,56,19,1,34,5,18,23,96,7,5,6}; 
+		System.out.println("Numeros desordenados: " + Arrays.toString(numeros));
+		o.mezclaNatural(numeros);
+		System.out.println("Numeros Ordenados: " +Arrays.toString(numeros));
+		
 	}
 
 }
